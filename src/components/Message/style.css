@@ -1,0 +1,22 @@
+.messages {
+	position: absolute;
+	right: 1em;
+	bottom: 1em;
+	align-items: flex-end;
+	display: flex;
+	gap: .5em;
+	flex-direction: column;
+	justify-content: flex-end;
+	z-index: 100;
+}
+
+.messages .item {
+	background-color: rgba(255,255,255,.1);
+	border-radius: .5em;
+	color: white;
+}
+
+.messages .item .text {
+	padding: 1em;
+	text-align: right;
+}

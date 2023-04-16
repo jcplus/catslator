@@ -1,0 +1,42 @@
+#file_list {
+	position: relative;
+	background-color: var(--black-100);
+	box-shadow: -2px 0 5px rgba(0,0,0,.2);
+	width: 20em;
+	z-index: 1;
+}
+
+#file_list .item {
+	border-bottom: 1px solid var(--black-300);
+	gap: .5em;
+	padding: .8em .5em;
+}
+
+#file_list .item:not(:last-child) {
+}
+
+#file_list .item .icon,
+#file_list .item .icon img {
+	border-radius: 5px;
+}
+
+#file_list .item .icon img {
+	width: 4em;
+}
+
+#file_list .item .content {
+	gap: .3em;
+	width: calc(100% - 3em);
+}
+
+#file_list .file_name {
+	font-size: .9em;
+	font-weight: normal;
+	margin-bottom: .5em;
+	width: 100%;
+}
+
+#file_list .item .updated_at {
+	color: var(--black-500);
+	font-size: .8em;
+}

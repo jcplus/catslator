@@ -1,0 +1,43 @@
+#sidebar {
+	background-color: var(--black-900);
+	width: 4em;
+}
+
+#sidebar .wrapper {
+	padding: .5em;
+}
+
+#sidebar .items,
+#sidebar .settings {
+	gap: .5em;
+	padding-top: .5em;
+	padding-bottom: .5em;
+}
+
+#sidebar .item {
+	background-color: pink;
+	align-items: center;
+	appearance: none;
+	background-color: transparent;
+	border: none;
+	border-radius: 100%;
+	display: flex;
+	font-size: 1.2em;
+	height: 2.5em;
+	justify-content: center;
+	transition: color .2s;
+}
+
+#sidebar .item:not(.active) {
+	color: var(--black-500);
+	cursor: pointer;
+}
+
+#sidebar .item:not(.active):hover {
+	color: var(--black-400);
+}
+
+#sidebar .item.active {
+	color: var(--teal-a100);
+	cursor: default;
+}

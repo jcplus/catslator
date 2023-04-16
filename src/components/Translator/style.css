@@ -1,0 +1,6 @@
+#translator {
+	position: relative;
+	background-color: white;
+	box-shadow: -2px 0 5px rgba(0,0,0,.05);
+	z-index: 2;
+}
