@@ -71,38 +71,54 @@ app.on('ready', () => {
 
 	const appMenu = Menu.getApplicationMenu();
 	console.log(appMenu)
-	// if (process.platform === 'darwin') {
-	//
-	// 	if (appMenu) {
-	// 		const appMenuItem = appMenu.items.find((item) => item.role === 'appmenu');
-	//
-	// 		if (appMenuItem) {
-	// 			const aboutItemIndex = appMenuItem.submenu.items.findIndex(
-	// 				(item) => item.role === 'about'
-	// 			);
-	//
-	// 			if (aboutItemIndex !== -1) {
-	// 				const separatorIndex = appMenuItem.submenu.items.findIndex(
-	// 					(item, index) => item.type === 'separator' && index > aboutItemIndex
-	// 				);
-	//
-	// 				const preferencesItem = new MenuItem({
-	// 					label: 'Settings',
-	// 					accelerator: 'Cmd+,',
-	// 					click: () => {
-	// 						// createSettingsWindow();
-	// 					},
-	// 				});
-	//
-	// 				if (separatorIndex !== -1) {
-	// 					appMenuItem.submenu.insert(separatorIndex + 1, preferencesItem);
-	// 				} else {
-	// 					appMenuItem.submenu.append(preferencesItem);
-	// 				}
-	//
-	// 				Menu.setApplicationMenu(appMenu);
-	// 			}
-	// 		}
-	// 	}
-	// }
+});
+
+/**
+ * Listens for 'file-to-translate' event from the renderer process.
+ * Handles the file data ArrayBuffer received from the renderer process.
+ *
+ * @param {Electron.IpcMainEvent} event - The event object from the renderer process.
+ * @param {ArrayBuffer} fileData - The ArrayBuffer containing the file data.
+ */
+ipcMain.on('file-to-translate', async (event, fileData) => {
+	try {
+		const pdfBuffer = Buffer.from(fileData);
+		import('pdf2json').then(({default: PDFParser}) => {
+			const pdfParser = new PDFParser();
+
+			pdfParser.on('pdfParser_dataReady', (pdfData) => {
+				if (pdfData && pdfData.Pages) {
+					// 遍历所有页面
+					const text = pdfData.Pages.flatMap(page => {
+						if (page.Texts) {
+							return page.Texts.map(textObj => {
+								if (textObj.R && textObj.R[0] && textObj.R[0].T) {
+									return decodeURIComponent(textObj.R[0].T);
+								} else {
+									return ''; // 如果文本对象没有符合预期的结构，则返回空字符串
+								}
+							});
+						} else {
+							return []; // 如果当前页面没有文本对象，则返回空数组
+						}
+					}).join(' ');
+
+					// 处理提取到的文本数据
+					console.log('Extracted text from PDF:', text);
+				} else {
+					console.error('Unexpected PDF data format:', pdfData);
+				}
+			});
+
+			pdfParser.on('pdfParser_dataError', (error) => {
+				console.error('Error extracting text from PDF:', error);
+			});
+
+			pdfParser.parseBuffer(pdfBuffer);
+		}).catch(error => {
+			console.error('Error loading pdf2json:', error);
+		});
+	} catch (error) {
+		console.error('Error processing PDF:', error);
+	}
 });

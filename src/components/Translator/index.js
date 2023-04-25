@@ -8,21 +8,10 @@ import './style.css';
 const Translator = () => {
 	const [translationStatus, setTranslationStatus] = useState('uploader');
 
-	const handleUpload = () => {
-		setTranslationStatus('processing');
-	};
-
-	const handleShowResult = () => {
-		setTranslationStatus('result');
-	};
-
 	return (
-		<div id="translator" className="flex_grow">
+		<div id="translator" className="full_height full_width">
 			<div className="full_wrapper">
-				{translationStatus === 'uploader' && <Uploader onUpload={handleUpload}/>}
-				{translationStatus === 'processing' && (
-					<Processing onShowResult={handleShowResult}/>
-				)}
+				{translationStatus === 'uploader' && <Uploader/>}
 				{translationStatus === 'result' && <Result/>}
 			</div>
 		</div>

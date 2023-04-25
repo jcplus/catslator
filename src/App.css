@@ -28,6 +28,25 @@
 	color: #61dafb;
 }
 
+#messages {
+	position: fixed;
+	right: 1em;
+	bottom: 1em;
+	display: flex;
+	flex-direction: column;
+	gap: .5em;
+	z-index: 100;
+}
+
+#messages .item {
+	align-items: center;
+	background-color: var(--black-800);
+	border-radius: .5em;
+	color: white;
+	display: flex;
+	padding: .5em 1em;
+}
+
 @keyframes App-logo-spin {
 	from {
 		transform: rotate(0deg);

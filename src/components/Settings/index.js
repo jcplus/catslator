@@ -26,9 +26,9 @@ const Settings = () => {
 
 	return (
 		<div id="settings" className="full_height full_width flex flex_column align_stretch">
-			<div className="flex flex_column wrapper">
-				<h2 className="drag_handle title">General</h2>
-				<div className="items">
+			<h2>General</h2>
+			<div className="groups">
+				<div className="group">
 					<div className="flex flex_column item">
 						<label htmlFor="api_key">API Key</label>
 						<div className="flex align_center value">
@@ -37,12 +37,6 @@ const Settings = () => {
 								value={apiKey}
 								onChange={handleInputChange}
 							/>
-							<a
-								className="flex align_center justify_center button"
-								onClick={handleSave}
-							>
-								<span>Save</span>
-							</a>
 						</div>
 					</div>
 				</div>

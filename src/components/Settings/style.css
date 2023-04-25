@@ -1,4 +1,7 @@
 #settings {
+    background-color: var(--black-800);
+    color: white;
+    padding: 2em;
     user-select: none;
 }
 
@@ -19,98 +22,17 @@
     color: white;
 }
 
-#settings .menu {
-    background-color: transparent;
-    gap: 5px;
-    padding: 2.5em 1em 1em;
-}
-
-#settings .menu .drag_handle {
-    height: 1em;
-}
-
-#settings .menu_item {
-    border-radius: .5em;
-    color: var(--black-500);
-    cursor: pointer;
-    gap: 1em;
-    height: 2.5em;
-    padding-left: .9em;
-    padding-right: 1em;
-}
-
-#settings .menu_item.active {
-    background-color: rgba(0,0,0,.2);
-    color: white;
-}
-
-#settings .menu_item .icon {
-    height: 2.5em;
-    width: 1em;
-}
-
-#settings .details {
-    background-color: black;
-    color: white;
-}
-
-#settings .details h2 {
-    border-bottom: 1px solid var(--black-800);
-    padding: 1em;
-}
-
-#settings .details .items {
-    padding: 1em;
-}
-
-#settings .details label {
-    margin-bottom: .5em;
+#settings h2 {
+    margin-bottom: 1em;
     padding-left: .5em;
 }
 
-#settings .details .value {
+#settings .group {
     background-color: var(--black-900);
-    border-radius: .5em;
-    gap: .5em;
+    border-radius: 1em;
     padding: 1em;
 }
 
-#settings .details .value .button {
-    border: 1px solid var(--black-800);
-    border-radius: 3px;
-    cursor: pointer;
-    height: 2em;
-    padding-left: .5em;
-    padding-right: .5em;
-}
-
-#settings .details .value .button:active {
-    background-color: black;
-}
-
-#settings .details .value .button span {
-    font-size: .8em;
-}
-
-#settings .messages {
-    position: absolute;
-    right: 1em;
-    bottom: 1em;
-    align-items: flex-end;
-    display: flex;
-    gap: .5em;
-    flex-direction: column;
-    justify-content: flex-end;
-    z-index: 100;
-}
-
-#settings .messages .item {
-    background-color: rgba(255,255,255,.1);
-    border-radius: .5em;
-    color: white;
-}
-
-#settings .messages .item .text {
-    padding: 1em;
-    text-align: right;
+#settings label {
+    margin-bottom: .5em;
 }
