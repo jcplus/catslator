@@ -1,27 +1,50 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
+import { useLocation } from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {addMessage} from '../../redux';
+import useUpdateEffect from '../../hooks/useUpdateEffect';
 
 import './style.css';
 
 const Settings = () => {
-	const timeout = 3000;
-	const [activeMenuItem, setActiveMenuItem] = useState('general');
+	const timeout = 1000;
+	const dispatch = useDispatch();
 	const [apiKey, setApiKey] = useState('');
-	const [messages, setMessages] = useState([]);
+	const [ajaxInProgress, setAjaxInProgress] = useState(false);
 
 	useEffect(() => {
-		(async () => {
-			const key = await window.electronApi.getApiKey();
-			if (key.trim().length) setApiKey(key.trim());
-		})()
+		setAjaxInProgress(true);
+		window.electronApi.send('get-api-key');
+		window.electronApi.receive('api-key-get-response', (key) => {
+			setApiKey(key);
+			setAjaxInProgress(false);
+		});
 	}, []);
 
 	const handleInputChange = (e) => {
-		setApiKey(e.target.value);
+		const inputValue = e.target.value.replace(/\s+/g, '');
+		setApiKey(inputValue);
 	};
 
-	const handleSave = async () => {
-		const result = await window.electronApi.saveApiKey(apiKey);
-		const message = result.success ? 'API key saved successfully' : 'Error saving API key: ' + result.error;
+	const handleSaveApiKey = () => {
+		if (apiKey.trim().length < 16) {
+			dispatch(addMessage('API key is too short'));
+			return;
+		}
+
+		const timer = setTimeout(() => {
+			window.electronApi.send('save-api-key', apiKey);
+			window.electronApi.receive('api-key-save-response', (result) => {
+				const message = result.success
+					? 'API key saved successfully'
+					: 'Error saving API key: ' + result.error;
+				dispatch(addMessage(message));
+			});
+		}, timeout);
+
+		return () => {
+			clearTimeout(timer);
+		};
 	};
 
 	return (
@@ -37,6 +60,7 @@ const Settings = () => {
 								value={apiKey}
 								onChange={handleInputChange}
 							/>
+							<button disabled={!apiKey.length} onClick={apiKey.length ? handleSaveApiKey : null}>Save</button>
 						</div>
 					</div>
 				</div>

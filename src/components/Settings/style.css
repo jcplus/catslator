@@ -1,6 +1,5 @@
 #settings {
-    background-color: var(--black-800);
-    color: white;
+    background-color: var(--black-100);
     padding: 2em;
     user-select: none;
 }
@@ -8,9 +7,8 @@
 #settings input[type=text] {
     appearance: none;
     background-color: transparent;
-    border: 1px solid var(--black-800);
+    border: 1px solid var(--black-600);
     border-radius: 3px;
-    color: var(--black-400);
     height: 2em;
     outline: none;
     padding-left: .5em;
@@ -18,8 +16,8 @@
     transition: color .2s;
 }
 
-#settings input[type=text]:focus {
-    color: white;
+#settings input[type=text]:not(:focus) {
+    color: var(--black-600);
 }
 
 #settings h2 {
@@ -28,7 +26,7 @@
 }
 
 #settings .group {
-    background-color: var(--black-900);
+    background-color: var(--black-200);
     border-radius: 1em;
     padding: 1em;
 }

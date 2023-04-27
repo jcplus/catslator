@@ -1,6 +1,6 @@
 const path = require('path');
 const {app, BrowserWindow, globalShortcut, ipcMain, Menu, MenuItem, nativeImage} = require('electron');
-const {db} = require('./src/database/init');
+const {getApiKey, setApiKey} = require('./src/database/utils');
 
 let mainWindow;
 
@@ -120,5 +120,25 @@ ipcMain.on('file-to-translate', async (event, fileData) => {
 		});
 	} catch (error) {
 		console.error('Error processing PDF:', error);
+	}
+});
+
+ipcMain.on('get-api-key', async (event) => {
+	try {
+		const apiKey = await getApiKey();
+		event.sender.send('api-key-get-response', apiKey);
+	} catch (error) {
+		console.error('Error fetching API key:', error);
+		event.sender.send('api-key-get-response', {error});
+	}
+});
+
+ipcMain.on('save-api-key', async (event, key) => {
+	try {
+		const result = await setApiKey(key);
+		event.sender.send('api-key-save-response', result);
+	} catch (error) {
+		console.error('Error saving API key:', error);
+		event.sender.send('api-key-save-response', {success: false, error});
 	}
 });

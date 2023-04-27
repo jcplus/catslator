@@ -1,19 +1,14 @@
-import {ipcMain} from "electron";
-import {db} from "./init";
+const db = require('./db');
 
-
-ipcMain.handle('get-api-key', async () => {
+const getApiKey = async () => {
 	try {
 		const apiKey = await new Promise((resolve, reject) => {
 			db.get('SELECT * FROM settings WHERE key = ?', ['api_key'], (err, row) => {
 				if (err) {
 					reject(err);
 				} else {
-					if (row && row.value.trim()) {
-						resolve(row.value);
-					} else {
-						resolve('');
-					}
+					let value = row && row.value.trim() ? row.value.trim() : '';
+					resolve(value);
 				}
 			});
 		});
@@ -21,9 +16,9 @@ ipcMain.handle('get-api-key', async () => {
 	} catch (error) {
 		console.error('Error fetching API key:', error);
 	}
-});
+};
 
-ipcMain.handle('save-api-key', async (event, key) => {
+const setApiKey = async (key) => {
 	try {
 		await new Promise((resolve, reject) => {
 			db.run('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)', ['api_key', key], (err) => {
@@ -39,4 +34,6 @@ ipcMain.handle('save-api-key', async (event, key) => {
 		console.error('Error saving API key:', error);
 		return {success: false, error};
 	}
-});
+};
+
+module.exports = { getApiKey, setApiKey };

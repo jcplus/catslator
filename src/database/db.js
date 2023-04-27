@@ -39,4 +39,4 @@ function initialiseDatabase() {
 
 initialiseDatabase();
 
-module.exports = {db};
+module.exports = db;
